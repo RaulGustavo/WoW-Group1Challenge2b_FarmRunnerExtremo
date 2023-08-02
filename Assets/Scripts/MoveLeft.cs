@@ -6,7 +6,7 @@ using UnityEngine;
 public class MoveLeft : MonoBehaviour
 {
     public float speed = 15.0f; //velocidad del objeto
-    public float bound = -15.0f; //limite del objeto para destruirlo
+    private float bound = -15.0f; //limite del objeto para destruirlo
 
     //referencia a objeto tipo player controler - los scripts son clases
     private PlayerController playerControllerScript;
