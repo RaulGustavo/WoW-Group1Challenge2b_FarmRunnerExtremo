@@ -7,23 +7,22 @@ using UnityEngine;
 //a que esta asignado?
 //que requiero?
 
+//este codigo modifica el player
 public class PlayerController : MonoBehaviour
 {
+    //variables de logica
+    public float jumpForce = 10.0f;
+    public float gravityModifier = 2.0f;
+    public bool isOnGround = true; //te dice si estas en el piso
+    public bool gameOver = false; //se inicializa en false siempre si no se define
+
+    //variables de assets
+    private Animator playerAnim;
+    private AudioSource playerAudio;
     //                 _rigidbody
     private Rigidbody playerRB;
 
-    public float jumpForce = 10.0f;
-    public float gravityModifier = 2.0f;
-
-    //teceta si estas en el piso
-    public bool isOnGround = true;
-    //se inicializa en false siempre si no se define
-    public bool gameOver = false;
-
-    private Animator playerAnim;
-    private AudioSource playerAudio;
-
-    //la orden de que necesitamos 
+    //variables de componentes
     public ParticleSystem explosionParticle;
     public ParticleSystem dirtyParticle;
 
@@ -37,14 +36,13 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //el cable
+        //el cable para obterner los componentes
         playerRB = GetComponent<Rigidbody>();
         playerAudio = GetComponent<AudioSource>();
-        
+        playerAnim = GetComponent<Animator>();
+
         //physics - componente global de unity, siempre tiene el numero de 1
         Physics.gravity *= gravityModifier; 
-
-        playerAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -70,8 +68,7 @@ public class PlayerController : MonoBehaviour
 
 
     //FUNCIONES
-    void Jump() {
-            //comportamiento de salto
+    void Jump() { //comportamiento del salto
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround && !gameOver)
         {
             //que o reproduzca una vez, y el volumen, la instrucción
@@ -79,8 +76,8 @@ public class PlayerController : MonoBehaviour
 
             //depende de la masa del rigid body para que se aplique - ForceMode.Impulse
             playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            //una vez que saltamos, no estamos en el piso
-            isOnGround = false;
+            //una vez que saltamos, no estamos en el piso (para no dar doble salto)
+            isOnGround = false; 
 
             //trigger=accion, evento dentro de unity
             //nombre de la animacion_trig
@@ -91,22 +88,21 @@ public class PlayerController : MonoBehaviour
     }   
 
     void Die() {
-            //pregunta si la colision es con un objeto segun las tag asignadas al objeto
-        
-            //para que se ejecute rapido
-            explosionParticle.Play();
-            dirtyParticle.Stop();
-            playerAudio.PlayOneShot(crashSound, 1.0f);
+        //pregunta si la colision es con un objeto segun las tag asignadas al objeto
+        //para que se ejecute rapido
+        explosionParticle.Play();
+        dirtyParticle.Stop();
+        playerAudio.PlayOneShot(crashSound, 1.0f);
 
-            gameOver = true;
-            Debug.Log("Game Over!");
-            //te puedes morir en cualquier momento, por eso es bool, quieres acceder todo el tiempo
-            playerAnim.SetBool("Death_b", true);
-            //hay diferentes maneras de morir, variaciones en morir
-            playerAnim.SetInteger("DeathType_int", 1);
+        gameOver = true;
+        Debug.Log("Game Over!");
+        //te puedes morir en cualquier momento, por eso es bool, quieres acceder todo el tiempo
+        playerAnim.SetBool("Death_b", true);
+        //hay diferentes maneras de morir, variaciones en morir
+        playerAnim.SetInteger("DeathType_int", 1);
     }
 
-    void ResetJump() {
+    void ResetJump() { //cuando toca el piso
         isOnGround = true;
         dirtyParticle.Play();
     }

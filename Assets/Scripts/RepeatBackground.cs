@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//este codigo modifica el background
 public class RepeatBackground : MonoBehaviour
 {
 
