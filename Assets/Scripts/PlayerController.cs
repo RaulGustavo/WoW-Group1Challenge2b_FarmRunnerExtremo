@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10.0f;
     public float gravityModifier = 2.0f;
     public bool isOnGround = true; //te dice si estas en el piso
+    public bool tooHigh = false;//Evita que saltes hasta el espacio
     public bool gameOver = false; //se inicializa en false siempre si no se define
 
     //variables de assets
@@ -84,6 +85,20 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetTrigger("Jump_trig");
 
             dirtyParticle.Stop();
+            tooHigh=false;
+        }
+        else if(Input.GetKeyDown(KeyCode.Space) && !tooHigh && !gameOver){
+            //que o reproduzca una vez, y el volumen, la instrucción
+            playerAudio.PlayOneShot(jumpSound, 1.0f);
+
+            //depende de la masa del rigid body para que se aplique - ForceMode.Impulse
+            playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            //Evitamos que el jugador salte hasta el infinito
+            tooHigh = true; 
+
+            //trigger=accion, evento dentro de unity
+            //nombre de la animacion_trig
+            playerAnim.SetTrigger("Jump_trig");
         }
     }   
 
@@ -105,6 +120,7 @@ public class PlayerController : MonoBehaviour
     void ResetJump() { //cuando toca el piso
         isOnGround = true;
         dirtyParticle.Play();
+    
     }
 
 }

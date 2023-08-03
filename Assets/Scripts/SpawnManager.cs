@@ -5,10 +5,11 @@ using UnityEngine;
 //este codigo spawnea los obstaculos
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject obstaclePrefab; //referencia al prefab
+    public GameObject[] obstaclePrefab; //referencia al prefab
     private Vector3 spawnPos = new Vector3(25, 0, 0); //posicion de spawneo
     public float startDelay = 2.0f; //antes de golpear al primer obstaculo
     public float repeatRate = 2.0f; //mientras esta golpeando los obstaculos
+    public int prefabSelected;
 
     //referencia a objeto tipo player controler - los scripts son clases
     private PlayerController playerControllerScript;
@@ -29,7 +30,8 @@ public class SpawnManager : MonoBehaviour
     {
         if (playerControllerScript.gameOver == false)
         {
-            Instantiate(obstaclePrefab, spawnPos, obstaclePrefab.transform.rotation);
+            prefabSelected=Random.Range(0,obstaclePrefab.Length);
+            Instantiate(obstaclePrefab[prefabSelected], spawnPos, obstaclePrefab[prefabSelected].transform.rotation);
         }
     }
 }
