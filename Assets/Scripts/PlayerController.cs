@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public bool isOnGround = true; //te dice si estas en el piso
     public bool tooHigh = false;//Evita que saltes hasta el espacio
     public bool gameOver = false; //se inicializa en false siempre si no se define
+    public float backSpeed = 15.0f;
 
     //variables de assets
     private Animator playerAnim;
@@ -50,6 +51,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Jump();
+        /* nocirbio
+        //fix - para que el mono no se salga de la pantalla
+        if (gameOver != false)
+        {
+            transform.Translate(Vector3.back * Time.deltaTime * backSpeed);
+        }*/
+
     }
 
     //cuando colisionas con algo
