@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public bool tooHigh = false;//Evita que saltes hasta el espacio
     public bool gameOver = false; //se inicializa en false siempre si no se define
     public float backSpeed = 15.0f;
+    private bool isStarting = true; //indica que el mono inicio a moverse
 
     //variables de assets
     private Animator playerAnim;
@@ -50,6 +51,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isStarting) { //checa si inicio el juego
+            //moviendo el mono de izquierda - derecha
+            //mathf.lerp - interpolacion lineal gradualmente en 3 segundos
+            float targetX = Mathf.Lerp(-5f, -1f, Time.time / 3.0f);
+
+            //aplica la nueva posicion
+            transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
+
+            //checa si ya llego a la posicion final indicada
+            if (transform.position.x >= -1f) {
+                isStarting = false; //para detener el movimiento
+            }
+        }
+        
         Jump();
         /* nocirbio
         //fix - para que el mono no se salga de la pantalla

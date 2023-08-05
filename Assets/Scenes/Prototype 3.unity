@@ -784,12 +784,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f19ea2940047784ba4673cd9756edd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 10
+  jumpForce: 11.7
   gravityModifier: 2.2
   isOnGround: 1
   tooHigh: 0
   gameOver: 0
-  backSpeed: 5
+  backSpeed: 0
   explosionParticle: {fileID: 419461560}
   dirtyParticle: {fileID: 1349202972}
   jumpSound: {fileID: 8300000, guid: 113ee460fadc340e4957a7404a9fbb27, type: 3}
