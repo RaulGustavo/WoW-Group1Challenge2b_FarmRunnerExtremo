@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public bool gameOver = false; //se inicializa en false siempre si no se define
     public float backSpeed = 15.0f;
     private bool isStarting = true; //indica que el mono inicio a moverse
+    public bool doubleSpeed = false;
 
     //variables de assets
     private Animator playerAnim;
@@ -125,6 +126,20 @@ public class PlayerController : MonoBehaviour
         }
     }   
 
+    void Dash()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isOnGround && !gameOver)
+        {
+            doubleSpeed = true;
+            playerAnim.SetFloat("Speed_Multiplier", 2.0f);
+        }
+        else
+        {
+            doubleSpeed = false;
+            playerAnim.SetFloat("Speed_Multiplier", 1.0f);
+        }
+    }
+
     void Die() {
         //pregunta si la colision es con un objeto segun las tag asignadas al objeto
         //para que se ejecute rapido
@@ -143,7 +158,5 @@ public class PlayerController : MonoBehaviour
     void ResetJump() { //cuando toca el piso
         isOnGround = true;
         dirtyParticle.Play();
-    
     }
-
 }

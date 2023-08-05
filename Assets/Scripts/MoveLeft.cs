@@ -26,6 +26,16 @@ public class MoveLeft : MonoBehaviour
         {
              //se mueve siempre a la izquierda
             transform.Translate(Vector3.left * Time.deltaTime * speed);
+
+            //el mono avanza mas rapido
+            if (playerControllerScript.doubleSpeed)
+            {
+                transform.Translate(Vector3.left * Time.deltaTime * (speed * 2));
+            }
+            else
+            {
+                transform.Translate(Vector3.left * Time.deltaTime * speed);
+            }
         }
 
         if (transform.position.x < bound && gameObject.CompareTag("Obstacle"))
